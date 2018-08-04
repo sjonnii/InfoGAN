@@ -166,7 +166,7 @@ def main(argv=None):
 
 if __name__ == '__main__':
     tf.app.flags.DEFINE_integer('batch_size', 100, 'size of training batches')
-    tf.app.flags.DEFINE_integer('Epochs', 50, 'number of training iterations')
+    tf.app.flags.DEFINE_integer('Epochs', 100, 'number of training iterations')
     tf.app.flags.DEFINE_float('learning_rate', 0.0002, 'Learning rate')
     tf.app.flags.DEFINE_integer('z_dim', 10, 'Dimension of latent space')
     tf.app.flags.DEFINE_string('channel', 'second', 'Which channel to use, first, second or both')
