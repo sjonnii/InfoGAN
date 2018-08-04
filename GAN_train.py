@@ -109,7 +109,6 @@ def train():
                     continuous_code = np.random.uniform(-1, 1, size=(code_size, n_continuous))
                     #all_codes = np.concatenate((discrete_code, continuous_code), axis = 1)
                     all_codes = continuous_code
-                    print (continuous_code)
 
                     _, rl, fl, il = sess.run([D_train_op, real_loss, fake_loss, I_loss],
                                              feed_dict={codes: all_codes})
