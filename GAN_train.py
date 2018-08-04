@@ -75,7 +75,7 @@ def train():
     #-----------------------------------------------------------------------
     #Train the model
     var_init = tf.global_variables_initializer()
-    # saver = tf.train.Saver()
+    saver = tf.train.Saver()
 
     with tf.Session() as sess:
         print ('Started Training')
@@ -116,6 +116,13 @@ def train():
                     fake_loss_total += fl
                     I_loss_total += il
 
+                    _, rl, fl, il = sess.run([D_train_op, real_loss, fake_loss, I_loss],
+                        feed_dict={codes: all_codes})
+
+                    real_loss_total += rl
+                    fake_loss_total += fl
+                    I_loss_total += il
+
                     #train generator
                     _, gl = sess.run([G_train_op, G_loss], feed_dict={codes: all_codes})
                     G_loss_total += gl
@@ -136,7 +143,7 @@ def train():
             print ('---')
 
 
-            print("Epoch: {}, G loss: {:.4f}, Fake D loss: {:.4f}, Real D los {:.4f}, I loss {:.4f}".format(epoch+1, G_loss_total, fake_loss_total, real_loss_total, I_loss_total))
+            print("Epoch: {}, G loss: {:.4f}, Fake D loss: {:.4f}, Real D los {:.4f}, I loss {:.4f}".format(epoch+1, G_loss_total, fake_loss_total/2, real_loss_total/2, I_loss_total/2))
 
         saver.save(sess, FLAGS.save_path)
     #-----------------------------------------------------------------------
@@ -166,7 +173,7 @@ def main(argv=None):
 
 if __name__ == '__main__':
     tf.app.flags.DEFINE_integer('batch_size', 100, 'size of training batches')
-    tf.app.flags.DEFINE_integer('Epochs', 100, 'number of training iterations')
+    tf.app.flags.DEFINE_integer('Epochs', 150, 'number of training iterations')
     tf.app.flags.DEFINE_float('learning_rate', 0.0002, 'Learning rate')
     tf.app.flags.DEFINE_integer('z_dim', 10, 'Dimension of latent space')
     tf.app.flags.DEFINE_string('channel', 'second', 'Which channel to use, first, second or both')
